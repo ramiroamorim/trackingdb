@@ -119,7 +119,7 @@ const transformFilloutPayload = (req, res, next) => {
             external_id: req.body.submissionId,
             lead_data: filloutData
         };
-        console.log('🔄 Payload transformed from Fillout');
+        console.log(' Payload transformed from Fillout');
     }
     next();
 };
@@ -137,7 +137,7 @@ app.post('/api/event', transformFilloutPayload, apiLimiter, async (req, res) => 
 
         if (error) {
             const errors = error.details.map(d => d.message);
-            console.warn('❌ Validation error:', errors);
+            console.warn(' Validation error:', errors);
             return res.status(400).json({ ok: false, error: 'Validation failed', details: errors });
         }
 
@@ -155,14 +155,14 @@ app.post('/api/event', transformFilloutPayload, apiLimiter, async (req, res) => 
             backoff: { type: 'exponential', delay: 2000 }
         });
 
-        console.log('✅ Enqueued event:', enrichedPayload.name || enrichedPayload.event_name);
+        console.log(' Enqueued event:', enrichedPayload.name || enrichedPayload.event_name);
         return res.json({ ok: true });
 
     } catch (err) {
-        console.error('🔥 Enqueue error:', err);
+        console.error(' Enqueue error:', err);
         return res.status(500).json({ ok: false, error: 'Internal server error' });
     }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`🚀 Server listening on ${PORT}`));
+app.listen(PORT, () => console.log(`Server listening on ${PORT}`));
